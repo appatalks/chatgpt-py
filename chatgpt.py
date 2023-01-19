@@ -34,7 +34,15 @@ else:
     print("Invalid choice, using text-davinci-003 as the default engine.")
     engine = "text-davinci-003"
 
-if engine == "text-curie-001":
+if engine == "code-davinci-002":
+    while True:
+        max_tokens = input("Enter the maximum number of tokens between 50 and 8000 for max_tokens (default: 160): ") or "160"
+        max_tokens = int(max_tokens)
+        if max_tokens < 50 or max_tokens > 8000:
+            print("Invalid value entered, please enter a value between 50 and 8000.")
+        else:
+            break
+elif engine == "text-curie-001":
     while True:
         max_tokens = input("Enter the maximum number of tokens between 50 and 2048 for max_tokens (default: 160): ") or "160"
         max_tokens = int(max_tokens)
