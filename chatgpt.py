@@ -34,13 +34,22 @@ else:
     print("Invalid choice, using text-davinci-003 as the default engine.")
     engine = "text-davinci-003"
 
-while True:
-    max_tokens = input("Enter the maximum number of tokens between 50 and 4000 for max_tokens (default: 160): ") or "160"
-    max_tokens = int(max_tokens)
-    if max_tokens < 50 or max_tokens > 4000:
-        print("Invalid value entered, please enter a value between 50 and 4000.")
-    else:
-        break
+if engine == "text-curie-001":
+    while True:
+        max_tokens = input("Enter the maximum number of tokens between 50 and 2048 for max_tokens (default: 160): ") or "160"
+        max_tokens = int(max_tokens)
+        if max_tokens < 50 or max_tokens > 2048:
+            print("Invalid value entered, please enter a value between 50 and 2048.")
+        else:
+            break
+else:
+    while True:
+        max_tokens = input("Enter the maximum number of tokens between 50 and 4000 for max_tokens (default: 160): ") or "160"
+        max_tokens = int(max_tokens)
+        if max_tokens < 50 or max_tokens > 4000:
+            print("Invalid value entered, please enter a value between 50 and 4000.")
+        else:
+            break
 
 # Prompt the user for their initial input
 initial_prompt = input("You: ") 
@@ -76,7 +85,6 @@ while True:
     # Log the conversation
     logger.info("User: {}", initial_prompt)
     logger.info("AI: {}", text)
-    
     # Concatenate the prompt with the previous question and response
     user_input = input("You: ")
     prompt = user_input + " " + text
