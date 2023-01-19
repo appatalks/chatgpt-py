@@ -76,6 +76,7 @@ while True:
     # Log the conversation
     logger.info("User: {}", initial_prompt)
     logger.info("AI: {}", text)
+    
     # Concatenate the prompt with the previous question and response
     user_input = input("You: ")
     prompt = user_input + " " + text
