@@ -11,7 +11,7 @@ Here are some of the features of this script:
     4. text-curie-001 (conversational model)
 - It uses loguru to log the conversation
 - It uses flite to speak the response of AI.
-- It allows you to set the max_tokens and temperature for the API call.
+- It allows you to set the max_tokens for the API call.
 - It goes into a loop where it waits for your input, generates a response using the OpenAI API, and speaks the response using flite.
 - The script will keep running until you stop it.
 
