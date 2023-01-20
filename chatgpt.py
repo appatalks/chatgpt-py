@@ -59,8 +59,11 @@ else:
         else:
             break
 
+# Add a variable to control flite usage
+use_flite = input("Do you want to use text-to-speech? (y/n) (default: y): ") or "n"
+
 # Prompt the user for their initial input
-initial_prompt = input("You: ") 
+initial_prompt = input("You: ")
 prompt = initial_prompt
 
 # Generate a response
@@ -87,13 +90,15 @@ while True:
     # Print the text to the console
     print("AI: " + text)
 
-    # Speak the text using flite
-    subprocess.run(["flite", "-voice", "slt", "--setf", "duration_stretch=1.15", "--setf", "int_f0_target_mean=160", "-pw", "-t", text], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    # Speak the text using flite if use_flite is "y"
+    if use_flite == "y":
+        subprocess.run(["flite", "-voice", "slt", "--setf", "duration_stretch=1.15", "--setf", "int_f0_target_mean=160", "-pw", "-t", text], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
     # Log the conversation
     logger.info("User: {}", initial_prompt)
     logger.info("AI: {}", text)
-    # Concatenate the prompt with the previous question and response
+
+# Concatenate the prompt with the previous question and response
     user_input = input("You: ")
-    prompt = user_input + " " + text
-    initial_prompt=user_input
+    prompt = f"{initial_prompt} {text} {user_input}"
+    initial_prompt = user_input
