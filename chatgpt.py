@@ -60,10 +60,26 @@ else:
             break
 
 # Add a variable to control flite usage
-use_flite = input("Do you want to use text-to-speech? (y/n) (default: y): ") or "n"
+use_flite = input("Do you want to use text-to-speech? (y/n) (default: n): ") or "n"
 
 # Prompt the user for their initial input
-initial_prompt = input("You: ")
+print("Select the initial prompt:")
+print("1. Default")
+print("2. Concise")
+print("3. Playful Friend")
+prompt_choice = input("Enter the number of your choice (default: 1): ") or "1"
+prompt_choice = int(prompt_choice)
+
+if prompt_choice == 1:
+    initial_prompt = input("You: ")
+elif prompt_choice == 2:
+    initial_prompt = "ChatGPT is a large language model trained by OpenAI. Browsing: enabled. Instructions: Answer factual questions concisely." + input("You: ")
+elif prompt_choice == 3:
+    initial_prompt = "You are my best friend. You are happy, playful and give good advice on all subjects. Sometimes you like to make jokes." + input("You: ")
+else:
+    print("Invalid choice, using the default prompt.")
+    initial_prompt = input("You: ")
+
 prompt = initial_prompt
 
 # Generate a response
