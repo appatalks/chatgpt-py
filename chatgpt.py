@@ -89,6 +89,8 @@ else:
 
 # Add a variable to control flite usage
 use_speech = input("Do you want to use text-to-speech? (y/n) (default: n): ") or "n"
+if use_speech == "y":
+    speech_engine = input("Which speech engine do you want to use? (neural or default: standard): ") or "standard"
 
 # Prompt the user for their initial input
 print("Select the initial prompt:")
@@ -140,7 +142,7 @@ while True:
         #
         polly = boto3.client('polly')
         response = polly.synthesize_speech(
-            Engine='neural',    
+            Engine=speech_engine,    
             VoiceId='Salli',
             OutputFormat='pcm',
             Text = text
@@ -164,7 +166,7 @@ while True:
     logger.info("User: {}", initial_prompt)
     logger.info("AI: {}", text)
 
-# Concatenate the prompt with the previous question and response
+    # Concatenate the prompt with the previous question and response
     user_input = input("You: ")
     prompt = f"{initial_prompt} {text} {user_input}"
     initial_prompt = user_input
