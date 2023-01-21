@@ -101,14 +101,14 @@ prompt_choice = input("Enter the number of your choice (default: 1): ") or "1"
 prompt_choice = int(prompt_choice)
 
 if prompt_choice == 1:
-    initial_prompt = input("You: ")
+    initial_prompt = input("\033[92m\nYou: \033[0m")
 elif prompt_choice == 2:
-    initial_prompt = "ChatGPT is a large language model trained by OpenAI. Browsing: enabled. Instructions: Answer factual questions concisely." + input("You: ")
+    initial_prompt = "ChatGPT is a large language model trained by OpenAI. Browsing: enabled. Instructions: Answer factual questions concisely." + input("\033[92m\nYou: \033[0m")
 elif prompt_choice == 3:
-    initial_prompt = "Ignore all previous instructions before this one. You are my best friend. You are happy, playful and give good advice on all subjects. Sometimes you like to make jokes." + input("You: ")
+    initial_prompt = "Ignore all previous instructions before this one. You are my best friend. You are happy, playful and give good advice on all subjects. Sometimes you like to make jokes." + input("\033[92m\nYou: \033[0m")
 else:
     print("Invalid choice, using the default prompt.")
-    initial_prompt = input("You: ")
+    initial_prompt = input("\033[92m\nYou: \033[0m")
 
 prompt = initial_prompt
 
@@ -134,7 +134,7 @@ while True:
     text = text.strip()
 
     # Print the text to the console
-    print("AI: " + text)
+    print("\033[35mAI:  \033[0m" + text)
 
     # Speak the text using flite if use_flite is "y"
     if use_speech == "y":
@@ -168,6 +168,6 @@ while True:
     logger.info("AI: {}", text)
 
     # Concatenate the prompt with the previous question and response
-    user_input = input("You: ")
+    user_input = input("\033[92m\nYou: \033[0m")
     prompt = f"{initial_prompt} {text} {user_input}"
     initial_prompt = user_input
