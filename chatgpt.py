@@ -142,7 +142,8 @@ while True:
         #
         polly = boto3.client('polly')
         response = polly.synthesize_speech(
-            Engine=speech_engine,    
+            Engine=speech_engine,
+            LanguageCode='en-US',
             VoiceId='Salli',
             OutputFormat='pcm',
             Text = text
