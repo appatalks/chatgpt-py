@@ -4,6 +4,7 @@ import boto3
 import pyaudio
 import os
 import sys
+import configparser
 from loguru import logger
 from ctypes import *
 from contextlib import contextmanager
@@ -87,7 +88,9 @@ else:
         else:
             break
 
-# Add a variable to control flite usage
+# Add a variable to control speech usage
+config = configparser.ConfigParser()
+config.read(os.path.expanduser('~/.aws/credentials'))
 use_speech = input("Do you want to use text-to-speech? (y/n) (default: n): ") or "n"
 if use_speech == "y":
     speech_engine = input("Which speech engine do you want to use? (neural or default: standard): ") or "standard"
@@ -136,32 +139,34 @@ while True:
     # Print the text to the console
     print("\033[35mAI:  \033[0m" + text)
 
-    # Speak the text using flite if use_flite is "y"
+    # Speak the text using AWS Polly if use_speech is "y"
     if use_speech == "y":
-        # subprocess.run(["flite", "-voice", "slt", "--setf", "duration_stretch=1.15", "--setf", "int_f0_target_mean=160", "-pw", "-t", text], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        #
-        polly = boto3.client('polly')
-        response = polly.synthesize_speech(
-            Engine=speech_engine,
-            LanguageCode='en-US',
-            VoiceId='Salli',
-            OutputFormat='pcm',
-            Text = text
-        )
-        
-        audio_stream = response['AudioStream'].read()
+        if config.has_section('default'):
+            polly = boto3.client('polly')
+            response = polly.synthesize_speech(
+                Engine=speech_engine,
+                LanguageCode='en-US',
+                VoiceId='Salli',
+                OutputFormat='pcm',
+                Text = text
+            )
 
-        with noalsaerr():
-            p = pyaudio.PyAudio()
-            stream = p.open(format=p.get_format_from_width(width=2),
-                            channels=1,
-                            rate=16000,
-                            output=True)
-            stream.start_stream()
-            stream.write(audio_stream)
-            stream.stop_stream()
-            stream.close()
-            p.terminate()
+            # Audio Steam Settings
+            audio_stream = response['AudioStream'].read()
+            with noalsaerr():
+                p = pyaudio.PyAudio()
+                stream = p.open(format=p.get_format_from_width(width=2),
+                                channels=1,
+                                rate=16000,
+                                output=True)
+                stream.start_stream()
+                stream.write(audio_stream)
+                stream.stop_stream()
+                stream.close()
+                p.terminate()
+        else:
+            print("AWS credentials not found in ~/.aws/credentials, fallback to Flite Engine.")
+            subprocess.run(["flite", "-voice", "slt", "--setf", "duration_stretch=1.15", "--setf", "int_f0_target_mean=160", "-pw", "-t", text], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
     # Log the conversation
     logger.info("User: {}", initial_prompt)
