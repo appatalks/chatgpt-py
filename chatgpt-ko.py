@@ -38,7 +38,7 @@ logger.remove()
 logger.add("/tmp/ai.log", format="{message}")
 
 # Variables
-openai.api_key = "API-KEY"
+openai.api_key = "API_KEY"
 
 # Select the engine
 print("사용하고자 하는 엔진을 선택하십시오.:")
