@@ -1,0 +1,10 @@
+openai
+subprocess
+boto3
+pyaudio
+os
+sys
+configparser
+loguru
+ctypes
+contextlib
